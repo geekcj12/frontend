@@ -34,7 +34,9 @@ import pathHelper from "../../utils/page";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import {
     batchGetSource,
+    openParentFolder,
     openPreview,
+    openTorrentDownload,
     setSelectedTarget,
     startBatchDownload,
     startDirectoryDownload,
@@ -56,7 +58,6 @@ import {
     openRemoveDialog,
     openRenameDialog,
     openShareDialog,
-    openTorrentDownloadDialog,
     refreshFileList,
     setNavigatorLoadingStatus,
     showImgPreivew,
@@ -142,7 +143,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(openRemoteDownloadDialog());
         },
         openTorrentDownloadDialog: () => {
-            dispatch(openTorrentDownloadDialog());
+            dispatch(openTorrentDownload());
         },
         openCopyDialog: () => {
             dispatch(openCopyDialog());
@@ -182,6 +183,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         startDirectoryDownload: (share) => {
             dispatch(startDirectoryDownload(share));
+        },
+        openParentFolder: () => {
+            dispatch(openParentFolder());
         },
     };
 };
@@ -451,6 +455,24 @@ class ContextMenuCompoment extends Component {
                                         </MenuItem>
                                     </div>
                                 )}
+
+                            {this.props.search && !this.props.isMultiple && (
+                                <div>
+                                    <MenuItem
+                                        dense
+                                        onClick={() =>
+                                            this.props.openParentFolder()
+                                        }
+                                    >
+                                        <StyledListItemIcon>
+                                            <OpenFolderIcon />
+                                        </StyledListItemIcon>
+                                        <Typography variant="inherit">
+                                            {t("fileManager.openParentFolder")}
+                                        </Typography>
+                                    </MenuItem>
+                                </div>
+                            )}
 
                             {!this.props.isMultiple && this.props.withFile && (
                                 <div>

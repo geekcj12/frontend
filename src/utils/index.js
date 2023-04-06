@@ -153,3 +153,11 @@ export function vhCheck() {
     const vh = window.innerHeight;
     document.documentElement.style.setProperty("--vh", `${vh}px`);
 }
+
+export const removeI18nCache = () => {
+    Object.keys(localStorage).forEach(function (key) {
+        if (key && key.startsWith("i18next_res_")) {
+            localStorage.removeItem(key);
+        }
+    });
+};

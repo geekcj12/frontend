@@ -79,7 +79,7 @@
     "mediumIcon": "中图标",
     "mediumIconDes": "192x192 的中等图标地址，png 格式",
     "largeIcon": "大图标",
-    "largeIconDes": "512x512 的大图标地址，png 格式",
+    "largeIconDes": "512x512 的大图标地址，png 格式。此图标还会被用于在 iOS 客户端切换站点时展示",
     "displayMode": "展示模式",
     "displayModeDes": "PWA 应用添加后的展示模式",
     "themeColor": "主题色",
@@ -99,7 +99,7 @@
     "captchaForLoginDes": "是否启用登录表单验证码",
     "captchaForReset": "找回密码验证码",
     "captchaForResetDes": "是否启用找回密码表单验证码",
-    "webauthnDes": "是否允许用户使用绑定的外部验证器登录，站点必须启动 HTTPS 才能使用。",
+    "webauthnDes": "是否允许用户使用绑定的外部验证器登录，站点必须启用 HTTPS 才能使用。",
     "webauthn": "外部验证器登录",
     "defaultGroup": "默认用户组",
     "defaultGroupDes": "用户注册后的初始用户组",
@@ -140,8 +140,8 @@
     "transitParallelNumDes": "任务队列中转任务传输时，最大并行协程数",
     "tempFolder": "临时目录",
     "tempFolderDes": "用于存放解压缩、压缩等任务产生的临时文件的目录路径",
-    "textEditMaxSize": "文本文件在线编辑大小",
-    "textEditMaxSizeDes": "文本文件可在线编辑的最大大小，超出此大小的文件无法在线编辑",
+    "textEditMaxSize": "文档在线编辑最大尺寸",
+    "textEditMaxSizeDes": "文档文件可在线编辑的最大大小，超出此大小的文件无法在线编辑。此项设置适用于纯文本文件、代码文件、Office 文档 （WOPI）",
     "failedChunkRetry": "分片错误重试",
     "failedChunkRetryDes": "分片上传失败后重试的最大次数，只适用于服务端上传或中转",
     "cacheChunks": "缓存流式分片文件以用于重试",
@@ -211,6 +211,7 @@
     "officePreviewServiceDes": "可使用以下替换变量：",
     "officePreviewServiceSrcDes": "文件 URL",
     "officePreviewServiceSrcB64Des": " Base64 编码后的文件 URL",
+    "officePreviewServiceName": "文件名",
     "thumbnails": "缩略图",
     "localOnlyInfo": "以下设置只针对本机存储策略有效。",
     "thumbWidth": "缩略图宽度",
@@ -257,7 +258,17 @@
     "tCaptchaAppID": "APPID",
     "tCaptchaAppIDDes": "<0>图形验证页面</0> 获取到的的 APPID",
     "tCaptchaSecretKey": "App Secret Key",
-    "tCaptchaSecretKeyDes": "<0>图形验证页面</0> 获取到的的 App Secret Key"
+    "tCaptchaSecretKeyDes": "<0>图形验证页面</0> 获取到的的 App Secret Key",
+    "staticResourceCache": "静态公共资源缓存",
+    "staticResourceCacheDes": "公共可访问的静态资源（如：本机策略直链、文件下载链接）的缓存有效期",
+    "wopiClient": "WOPI 客户端",
+    "wopiClientDes": "通过对接支持 WOPI 协议的在线文档处理系统，扩展 Cloudreve 的文档在线预览和编辑能力。详情请参考 <0>官方文档</0>。",
+    "wopiDocLink": "https://docs.cloudreve.org/use/wopi",
+    "enableWopi": "使用 WOPI",
+    "wopiEndpoint": "WOPI Discovery Endpoint",
+    "wopiEndpointDes": "WOPI 客户端发现 API 的端点地址",
+    "wopiSessionTtl": "编辑会话有效期（秒）",
+    "wopiSessionTtlDes": "用户打开在线编辑文档会话的有效期，超出此期限的会话无法继续保存新更改"
   },
   "policy": {
     "sharp": "#",
@@ -380,7 +391,7 @@
     "createQiniuBucket": "前往 <0>七牛控制面板</0> 创建对象存储资源。",
     "enterQiniuBucket": "在下方填写您在七牛创建存储空间时指定的“存储空间名称”：",
     "qiniuBucketName": "存储空间名称",
-    "bucketTypeDes": "在下方选择您创建的空间类型，推荐选择“私有空间”以获得更高的安全性，私有空间无法开启“获取直链”功能。",
+    "bucketTypeDes": "在下方选择您创建的空间类型，推荐选择“私有空间”以获得更高的安全性。",
     "privateBucket": "私有",
     "publicBucket": "公有",
     "bucketCDNDes": "填写您为存储空间绑定的 CDN 加速域名。",
@@ -388,7 +399,7 @@
     "qiniuCredentialDes": "在七牛控制面板进入 个人中心 - 密钥管理，在下方填写获得到的 AK、SK。",
     "ak": "AK",
     "sk": "SK",
-    "cannotEnableForPrivateBucket": "私有空间无法开启此功能",
+    "cannotEnableForPrivateBucket": "私有空间开启外链功能后，还需要在用户组里设置开启“使用重定向的外链”，否则无法正常生成外链",
     "limitMimeType": "是否限制上传文件 MimeType？",
     "mimeTypeDes": "输入允许上传的 MimeType，多个请以半角逗号 , 隔开。七牛服务器会侦测文件内容以判断 MimeType，再用判断值跟指定值进行匹配，匹配成功则允许上传。",
     "mimeTypeList": "MimeType 列表",
@@ -469,9 +480,9 @@
     "odHttpsWarning": "您必须启用 HTTPS 才能使用 OneDrive/SharePoint 存储策略；启用后同步更改 参数设置 - 站点信息 - 站点URL。",
     "editOdStoragePolicy": "修改 OneDrive/SharePoint 存储策略",
     "addOdStoragePolicy": "添加 OneDrive/SharePoint 存储策略",
-    "creatAadAppDes": "前往 <0>Azure Active Directory 控制台 (国际版账号)</0> 或者 <1>Azure Active Directory 控制台 (世纪互联账号)</1> 并登录，登录后进入<2>Azure Active Directory</2> 管理面板。",
+    "creatAadAppDes": "前往 <0>Azure Active Directory 控制台 (国际版账号)</0> 或者 <1>Azure Active Directory 控制台 (世纪互联账号)</1> 并登录，登录后进入<2>Azure Active Directory</2> 管理面板，这里登录使用的账号和最终存储使用的 OneDrive 所属账号可以不同。",
     "createAadAppDes2": "进入左侧 <0>应用注册</0> 菜单，并点击 <1>新注册</1> 按钮。",
-    "createAadAppDes3": "填写应用注册表单。其中，名称可任取；<0>受支持的帐户类型</0> 选择为 <1>任何组织目录(任何 Azure AD 目录 - 多租户)中的帐户</1>；<2>重定向 URI (可选)</2> 请选择 <3>Web</3>，并填写 <4>{{url}}</4>； 其他保持默认即可",
+    "createAadAppDes3": "填写应用注册表单。其中，名称可任取；<0>受支持的帐户类型</0> 选择为 <1>任何组织目录(任何 Azure AD 目录 - 多租户)中的帐户和个人 Microsoft 帐户(例如，Skype、Xbox)</1>；<2>重定向 URI (可选)</2> 请选择 <3>Web</3>，并填写 <4>{{url}}</4>； 其他保持默认即可",
     "aadAppIDDes": "创建完成后进入应用管理的 <0>概览</0> 页面，复制 <1>应用程序(客户端) ID</1> 并填写在下方：",
     "aadAppID": "应用程序(客户端) ID",
     "addAppSecretDes": "进入应用管理页面左侧的 <0>证书和密码</0> 菜单，点击 <1>新建客户端密码</1> 按钮，<2>截止期限</2> 选择为 <3>从不</3>。创建完成后将客户端密码的值填写在下方：",
@@ -550,7 +561,10 @@
     "chunkSizeBytesDes": "分片上传时单个分片的大小，仅部分存储策略支持",
     "placeHolderWithSize": "上传前预支用户存储",
     "placeHolderWithSizeDes": "是否在上传会话创建时就对用户存储进行预支，仅部分存储策略支持",
-    "saveChanges": "保存更改"
+    "saveChanges": "保存更改",
+    "s3EndpointPathStyle": "选择 S3 Endpoint 地址的格式，如果您不知道该选什么，保持默认即可。某些第三方 S3 兼容存储策略可能需要更改此选项。开启后，将会强制使用路径格式地址，比如 <0>http://s3.amazonaws.com/BUCKET/KEY</0>。",
+    "usePathEndpoint": "强制路径格式",
+    "useHostnameEndpoint": "主机名优先"
   },
   "node": {
     "#": "#",
@@ -669,7 +683,11 @@
     "compressSize": "待压缩文件最大大小",
     "compressSizeDes": "用户可创建的压缩任务的文件最大总大小，填写为 0 表示不限制",
     "decompressSize": "待解压文件最大大小",
-    "decompressSizeDes": "用户可创建的解压缩任务的文件最大总大小，填写为 0 表示不限制"
+    "decompressSizeDes": "用户可创建的解压缩任务的文件最大总大小，填写为 0 表示不限制",
+    "redirectedSource": "使用重定向的外链",
+    "redirectedSourceDes": "开启后，用户获取的文件外链将由 Cloudreve 中转，链接较短。关闭后，用户获取的文件外链会变成文件的原始链接。部分存储策略获取的非中转外链无法保持永久有效，请参阅 <0>比较存储策略</0>。",
+    "advanceDelete": "允许使用高级文件删除选项",
+    "advanceDeleteDes": "开启后，用户在前台删除文件时可以选择是否强制删除、是否仅解除物理链接。这些选项与后台管理面板删除文件时类似，请只开放给可信用户组。"
   },
   "user": {
     "deleted": "用户已删除",
@@ -696,7 +714,9 @@
     "editUser": "编辑 {{nick}}",
     "password": "密码",
     "passwordDes": "留空表示不修改",
-    "groupDes": "用户所属用户组"
+    "groupDes": "用户所属用户组",
+    "2FASecret": "二步验证密钥",
+    "2FASecretDes": "用户二步验证器的密钥，清空表示未启用。"
   },
   "file": {
     "name": "文件名",
@@ -727,7 +747,8 @@
     "dstFolderPathDes": "要将目录导入到用户文件系统中的路径",
     "recursivelyImport": "递归导入子目录",
     "recursivelyImportDes": "是否将目录下的所有子目录递归导入",
-    "createImportTask": "创建导入任务"
+    "createImportTask": "创建导入任务",
+    "unlink": "解除关联（保留物理文件）"
   },
   "share": {
     "deleted": "分享已删除",

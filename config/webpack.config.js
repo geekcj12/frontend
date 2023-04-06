@@ -648,6 +648,12 @@ module.exports = function(webpackEnv) {
       // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
       // You can remove this if you don't use Moment.js:
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+
+      new webpack.DefinePlugin({
+        ASSETS_VERSION: JSON.stringify(
+            require("../package.json").version
+        ),
+      }),
       // Generate a service worker script that will precache, and keep up to date,
       // the HTML & assets that are part of the Webpack build.
       isEnvProduction &&
@@ -666,6 +672,7 @@ module.exports = function(webpackEnv) {
             // a route with query params (e.g. auth callbacks).
             new RegExp('/[^/?]+\\.[^/]+$'),
             new RegExp(/^\/api/),
+            new RegExp(/^\/f\//),
             new RegExp(/^\/custom/),
           ],
         }),

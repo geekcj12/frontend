@@ -25,6 +25,7 @@ import TextField from "@material-ui/core/TextField";
 import AlertDialog from "../../Dialogs/Alert";
 import { toggleSnackbar } from "../../../../redux/explorer";
 import { Trans, useTranslation } from "react-i18next";
+import { transformPolicyRequest } from "../utils";
 
 const useStyles = makeStyles((theme) => ({
     stepContent: {
@@ -176,6 +177,7 @@ export default function S3Guide(props) {
                       region: "us-east-2",
                       chunk_size: 25 << 20,
                       placeholder_with_size: "false",
+                      s3_path_style: "true",
                   },
               }
     );
@@ -215,7 +217,7 @@ export default function S3Guide(props) {
         e.preventDefault();
         setLoading(true);
 
-        const policyCopy = { ...policy };
+        let policyCopy = { ...policy };
         policyCopy.OptionsSerialized = { ...policyCopy.OptionsSerialized };
 
         if (useCDN === "false") {
@@ -223,25 +225,7 @@ export default function S3Guide(props) {
         }
 
         // 类型转换
-        policyCopy.AutoRename = policyCopy.AutoRename === "true";
-        policyCopy.IsOriginLinkEnable =
-            policyCopy.IsOriginLinkEnable === "true";
-        policyCopy.IsPrivate = policyCopy.IsPrivate === "true";
-        policyCopy.MaxSize = parseInt(policyCopy.MaxSize);
-        policyCopy.OptionsSerialized.chunk_size = parseInt(
-            policyCopy.OptionsSerialized.chunk_size
-        );
-        policyCopy.OptionsSerialized.placeholder_with_size =
-            policyCopy.OptionsSerialized.placeholder_with_size === "true";
-        policyCopy.OptionsSerialized.file_type = policyCopy.OptionsSerialized.file_type.split(
-            ","
-        );
-        if (
-            policyCopy.OptionsSerialized.file_type.length === 1 &&
-            policyCopy.OptionsSerialized.file_type[0] === ""
-        ) {
-            policyCopy.OptionsSerialized.file_type = [];
-        }
+        policyCopy = transformPolicyRequest(policyCopy);
 
         API.post("/admin/policy", {
             policy: policyCopy,
@@ -423,6 +407,51 @@ export default function S3Guide(props) {
                         </div>
                         <div className={classes.subStepContent}>
                             <Typography variant={"body2"}>
+                                <Trans
+                                    ns={"dashboard"}
+                                    i18nKey={"policy.s3EndpointPathStyle"}
+                                    components={[<code key={0} />]}
+                                />
+                            </Typography>
+                            <div className={classes.form}>
+                                <FormControl required component="fieldset">
+                                    <RadioGroup
+                                        required
+                                        value={
+                                            policy.OptionsSerialized
+                                                .s3_path_style
+                                        }
+                                        onChange={handleOptionChange(
+                                            "s3_path_style"
+                                        )}
+                                        row
+                                    >
+                                        <FormControlLabel
+                                            value={"true"}
+                                            control={
+                                                <Radio color={"primary"} />
+                                            }
+                                            label={t("usePathEndpoint")}
+                                        />
+                                        <FormControlLabel
+                                            value={"false"}
+                                            control={
+                                                <Radio color={"primary"} />
+                                            }
+                                            label={t("useHostnameEndpoint")}
+                                        />
+                                    </RadioGroup>
+                                </FormControl>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className={classes.subStepContainer}>
+                        <div className={classes.stepNumberContainer}>
+                            <div className={classes.stepNumber}>5</div>
+                        </div>
+                        <div className={classes.subStepContent}>
+                            <Typography variant={"body2"}>
                                 {t("selectRegionDes")}
                             </Typography>
                             <div className={classes.form}>
@@ -455,7 +484,7 @@ export default function S3Guide(props) {
 
                     <div className={classes.subStepContainer}>
                         <div className={classes.stepNumberContainer}>
-                            <div className={classes.stepNumber}>5</div>
+                            <div className={classes.stepNumber}>6</div>
                         </div>
                         <div className={classes.subStepContent}>
                             <Typography variant={"body2"}>
@@ -494,7 +523,7 @@ export default function S3Guide(props) {
                     <Collapse in={useCDN === "true"}>
                         <div className={classes.subStepContainer}>
                             <div className={classes.stepNumberContainer}>
-                                <div className={classes.stepNumber}>6</div>
+                                <div className={classes.stepNumber}>7</div>
                             </div>
                             <div className={classes.subStepContent}>
                                 <Typography variant={"body2"}>
@@ -515,7 +544,7 @@ export default function S3Guide(props) {
                     <div className={classes.subStepContainer}>
                         <div className={classes.stepNumberContainer}>
                             <div className={classes.stepNumber}>
-                                {getNumber(6, [useCDN === "true"])}
+                                {getNumber(7, [useCDN === "true"])}
                             </div>
                         </div>
                         <div className={classes.subStepContent}>
@@ -560,7 +589,7 @@ export default function S3Guide(props) {
                     <div className={classes.subStepContainer}>
                         <div className={classes.stepNumberContainer}>
                             <div className={classes.stepNumber}>
-                                {getNumber(7, [useCDN === "true"])}
+                                {getNumber(8, [useCDN === "true"])}
                             </div>
                         </div>
                         <div className={classes.subStepContent}>
@@ -761,7 +790,6 @@ export default function S3Guide(props) {
                                                     ),
                                                     "warning"
                                                 );
-                                                return;
                                             }
                                             handleChange("IsOriginLinkEnable")(
                                                 e

@@ -41,7 +41,6 @@ export default function UploadDownload() {
         max_worker_num: "1",
         max_parallel_transfer: "1",
         temp_path: "",
-        maxEditSize: "",
         chunk_retries: "0",
         archive_timeout: "0",
         download_timeout: "0",
@@ -60,6 +59,7 @@ export default function UploadDownload() {
         slave_recover_interval: "0",
         slave_transfer_timeout: "0",
         use_temp_chunk_buffer: "1",
+        public_resource_maxage: "0",
     });
 
     const handleCheckChange = (name) => (event) => {
@@ -191,25 +191,6 @@ export default function UploadDownload() {
 
                         <div className={classes.form}>
                             <FormControl>
-                                {options.maxEditSize !== "" && (
-                                    <SizeInput
-                                        value={options.maxEditSize}
-                                        onChange={handleChange("maxEditSize")}
-                                        required
-                                        min={0}
-                                        max={2147483647}
-                                        label={t("textEditMaxSize")}
-                                    />
-                                )}
-
-                                <FormHelperText id="component-helper-text">
-                                    {t("textEditMaxSizeDes")}
-                                </FormHelperText>
-                            </FormControl>
-                        </div>
-
-                        <div className={classes.form}>
-                            <FormControl>
                                 <InputLabel htmlFor="component-helper">
                                     {t("failedChunkRetry")}
                                 </InputLabel>
@@ -296,6 +277,11 @@ export default function UploadDownload() {
                             {
                                 name: "docPreviewURL",
                                 field: "doc_preview_timeout",
+                            },
+                            {
+                                name: "staticResourceCache",
+                                field: "public_resource_maxage",
+                                des: "staticResourceCacheDes",
                             },
                             {
                                 name: "uploadSession",

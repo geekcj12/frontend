@@ -17,9 +17,11 @@ import { push } from "connected-react-router";
 import {
     changeContextMenu,
     closeAllModals,
+    navigateTo,
     openDirectoryDownloadDialog,
     openGetSourceDialog,
     openLoadingDialog,
+    openTorrentDownloadDialog,
     showAudioPreview,
     showImgPreivew,
     toggleSnackbar,
@@ -1065,8 +1067,19 @@ export const batchGetSource = (): ThunkAction<any, any, any, any> => {
 
         API.post("/file/source", { items: items })
             .then((response) => {
-                console.log(response);
                 dispatch(closeAllModals());
+                if (response.data.length == 1 && response.data[0].error) {
+                    dispatch(
+                        toggleSnackbar(
+                            "top",
+                            "right",
+                            response.data[0].error,
+                            "warning"
+                        )
+                    );
+                    return;
+                }
+
                 dispatch(
                     openGetSourceDialog(
                         response.data.length == 1
@@ -1081,6 +1094,45 @@ export const batchGetSource = (): ThunkAction<any, any, any, any> => {
                                   .join("\n")
                     )
                 );
+            })
+            .catch((error) => {
+                dispatch(
+                    toggleSnackbar("top", "right", error.message, "warning")
+                );
+                dispatch(closeAllModals());
+            });
+    };
+};
+
+export const openTorrentDownload = (): ThunkAction<any, any, any, any> => {
+    return (dispatch, getState): void => {
+        const {
+            explorer: { selected },
+        } = getState();
+        dispatch(openTorrentDownloadDialog(selected[0]));
+    };
+};
+
+export const openParentFolder = (): ThunkAction<any, any, any, any> => {
+    return async (dispatch, getState): Promise<any> => {
+        const {
+            explorer: { selected },
+        } = getState();
+
+        dispatch(openLoadingDialog(i18next.t("modals.processing")));
+        API.get(
+            "/object/property/" +
+            selected[0].id +
+            "?trace_root=true&is_folder=" +
+            (selected[0].type === "dir").toString()
+        )
+            .then((response) => {
+                const path =
+                    response.data.path === ""
+                        ? selected[0].path
+                        : response.data.path;
+                dispatch(navigateTo(path));
+                dispatch(closeAllModals());
             })
             .catch((error) => {
                 dispatch(

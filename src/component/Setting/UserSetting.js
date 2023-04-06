@@ -41,7 +41,7 @@ import { blue, green, yellow } from "@material-ui/core/colors";
 import API from "../../middleware/Api";
 import Auth from "../../middleware/Auth";
 import { withRouter } from "react-router";
-import QRCode from "qrcode-react";
+import { QRCodeSVG } from "qrcode.react";
 import {
     Brightness3,
     GitHub,
@@ -335,7 +335,7 @@ class UserSettingCompoment extends Component {
                 this.props.toggleSnackbar(
                     "top",
                     "right",
-                    this.props.t("nickChanged"),
+                    this.props.t("setting.nickChanged"),
                     "success"
                 );
                 this.setState({
@@ -949,6 +949,24 @@ class UserSettingCompoment extends Component {
                                     />
                                 </ListItemSecondaryAction>
                             </ListItem>
+                            <Divider />
+                            <ListItem
+                                onClick={() => this.props.selectLanguage()}
+                                button
+                            >
+                                <ListItemIcon className={classes.iconFix}>
+                                    <Translate />
+                                </ListItemIcon>
+                                <ListItemText primary={t("setting.language")} />
+
+                                <ListItemSecondaryAction
+                                    className={classes.flexContainer}
+                                >
+                                    <RightIcon
+                                        className={classes.rightIconWithText}
+                                    />
+                                </ListItemSecondaryAction>
+                            </ListItem>
                         </List>
                     </Paper>
                     {user.group.webdav && (
@@ -1045,7 +1063,7 @@ class UserSettingCompoment extends Component {
                         className={classes.sectionTitle}
                         variant="subtitle2"
                     >
-                        关于 Cloudreve
+                        {t("setting.aboutCloudreve")}
                     </Typography>
                     <Paper>
                         <List className={classes.desenList}>
@@ -1060,7 +1078,7 @@ class UserSettingCompoment extends Component {
                                 <ListItemIcon className={classes.iconFix}>
                                     <GitHub />
                                 </ListItemIcon>
-                                <ListItemText primary="GitHub 仓库" />
+                                <ListItemText primary={t("setting.githubRepo")} />
 
                                 <ListItemSecondaryAction
                                     className={classes.flexContainer}
@@ -1080,25 +1098,7 @@ class UserSettingCompoment extends Component {
                                 <ListItemIcon className={classes.iconFix}>
                                     <Home />
                                 </ListItemIcon>
-                                <ListItemText primary="主页" />
-
-                                <ListItemSecondaryAction
-                                    className={classes.flexContainer}
-                                >
-                                    <RightIcon
-                                        className={classes.rightIconWithText}
-                                    />
-                                </ListItemSecondaryAction>
-                            </ListItem>
-                            <Divider />
-                            <ListItem
-                                onClick={() => this.props.selectLanguage()}
-                                button
-                            >
-                                <ListItemIcon className={classes.iconFix}>
-                                    <Translate />
-                                </ListItemIcon>
-                                <ListItemText primary={t("setting.language")} />
+                                <ListItemText primary={t("setting.homepage")} />
 
                                 <ListItemSecondaryAction
                                     className={classes.flexContainer}
@@ -1262,7 +1262,7 @@ class UserSettingCompoment extends Component {
                         <div className={classes.flexContainerResponse}>
                             {!this.state.settings.two_factor && (
                                 <div className={classes.qrcode}>
-                                    <QRCode
+                                    <QRCodeSVG
                                         value={
                                             "otpauth://totp/" +
                                             this.props.title +
